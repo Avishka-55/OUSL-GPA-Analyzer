@@ -13,7 +13,7 @@ A modern web application for analyzing academic performance and calculating GPA 
 - 🎯 **Custom Exclusions** — Exclude non-GPA courses or electives from your calculation
 - 🚀 **Fast & Offline-Ready** — Client-side processing with no server dependency
 
-## Supported File Formats
+## Supported File Formats.
 
 | Format | Origin | Support |
 |--------|--------|---------|
