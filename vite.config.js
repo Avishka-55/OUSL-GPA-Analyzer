@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  // IMPORTANT: if your repo is https://github.com/Avishka-55/<REPO_NAME>
-  // then base must be "/<REPO_NAME>/"
-  base: "/OUSL-GPA-Analyzer/",
+  // Use root path for dev, subdirectory for production GitHub Pages
+  base: process.env.NODE_ENV === "production" ? "/OUSL-GPA-Analyzer/" : "/",
 });
