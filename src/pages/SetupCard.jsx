@@ -16,7 +16,7 @@ export default function SetupCard({ gpa }) {
       <Dropzone
         label={gpa.fileLabel}
         hint="Exports straight from the myOUSL portal"
-        accept=".xls,.html,.htm"
+        accept=".xls,.xlsx,.html,.htm"
         onFile={gpa.loadFile}
       />
 

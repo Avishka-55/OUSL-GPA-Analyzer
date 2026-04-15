@@ -7,6 +7,7 @@ import {
   getCredits,
   getDegreeClass,
   getLevel,
+  parseOUSLFromXlsxFile,
   parseOUSLFromHtmlText,
 } from "../lib/gpa.jsx";
 
@@ -17,7 +18,7 @@ export function useGpaAnalyzer() {
   );
 
   const [fileLabel, setFileLabel] = useState(
-    "Tap to upload or drag & drop .xls/.html here"
+    "Tap to upload or drag & drop .xls/.xlsx/.html here"
   );
   const [fileStatus, setFileStatus] = useState({ kind: "idle", message: "" });
 
@@ -192,8 +193,11 @@ export function useGpaAnalyzer() {
     if (!file) return;
 
     try {
-      const text = await file.text();
-      const parsed = parseOUSLFromHtmlText(text);
+      const extension = file.name.split(".").pop()?.toLowerCase();
+      const parsed =
+        extension === "xlsx"
+          ? await parseOUSLFromXlsxFile(file)
+          : parseOUSLFromHtmlText(await file.text());
       if (!parsed.length) throw new Error("No courses found.");
 
       setAllCourses(parsed);
