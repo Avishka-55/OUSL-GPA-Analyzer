@@ -4,7 +4,7 @@ A modern web application for analyzing academic performance and calculating GPA 
 
 ## Features
 
-- 📊 **Real-time GPA Calculation** — Instantly compute your GPA based on uploaded grades
+- 📊 **Real-time GPA Calculation** — Instantly compute your GPA based on uploaded grades.
 - 📁 **Multiple File Format Support** — Import grades from `.xls`, `.xlsx`, HTML exports, or directly from the myOUSL portal
 - 🎓 **Degree Type Support** — Analyze performance for both General and Honours degree programmes
 - 🔍 **Detailed Analytics** — View grade distribution, credit progress, level-wise GPA breakdown, and classification path
