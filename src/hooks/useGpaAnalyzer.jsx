@@ -41,6 +41,23 @@ export function useGpaAnalyzer() {
       .filter(Boolean);
   }, [excludeText]);
 
+  function setExcludedCodes(codes) {
+    const cleanCodes = [...new Set(codes.map((code) => String(code || "").trim().toUpperCase()).filter(Boolean))];
+    setExcludeText(cleanCodes.join(", "));
+  }
+
+  function addExcludedCode(code) {
+    const normalized = String(code || "").trim().toUpperCase();
+    if (!normalized || excluded.includes(normalized)) return;
+    setExcludedCodes([...excluded, normalized]);
+  }
+
+  function removeExcludedCode(code) {
+    const normalized = String(code || "").trim().toUpperCase();
+    if (!normalized) return;
+    setExcludedCodes(excluded.filter((item) => item !== normalized));
+  }
+
   const degreeCrit = useMemo(() => CRITERIA[degreeType], [degreeType]);
 
   const baseData = useMemo(() => {
@@ -248,6 +265,9 @@ export function useGpaAnalyzer() {
     setDegreeType,
     excludeText,
     setExcludeText,
+    setExcludedCodes,
+    addExcludedCode,
+    removeExcludedCode,
 
     fileLabel,
     fileStatus,

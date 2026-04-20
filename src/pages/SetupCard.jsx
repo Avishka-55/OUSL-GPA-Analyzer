@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import DegreeToggle from "../components/DegreeToggle.jsx";
 import Dropzone from "../components/Dropzone.jsx";
 import SectionHeader from "../components/SectionHeader.jsx";
@@ -5,6 +6,37 @@ import InfoPill from "../components/InfoPill.jsx";
 
 export default function SetupCard({ gpa }) {
   const hasCourses = gpa.allCourses.length > 0;
+  const [excludeSearch, setExcludeSearch] = useState("");
+
+  const query = excludeSearch.trim().toUpperCase();
+  const courseOptions = useMemo(() => {
+    const unique = new Map();
+
+    for (const course of gpa.allCourses) {
+      const code = String(course.code || "").trim().toUpperCase();
+      if (!code || unique.has(code)) continue;
+      unique.set(code, {
+        code,
+        name: String(course.name || "").trim(),
+      });
+    }
+
+    return [...unique.values()];
+  }, [gpa.allCourses]);
+
+  const suggestions = useMemo(() => {
+    if (!query) return [];
+
+    return courseOptions
+      .filter((course) => {
+        if (gpa.excluded.includes(course.code)) return false;
+        return (
+          course.code.includes(query) ||
+          course.name.toUpperCase().includes(query)
+        );
+      })
+      .slice(0, 8);
+  }, [courseOptions, gpa.excluded, query]);
 
   return (
     <div className="card" id="card-setup">
@@ -33,19 +65,59 @@ export default function SetupCard({ gpa }) {
         <>
           <div className="divider" style={{ marginTop: 40 }} />
 
-          <label className="field-label" htmlFor="exclude-input">
-            Exclude these non-GPA courses (Comma separated)
+          <label className="field-label" htmlFor="exclude-search">
+            Exclude non-GPA courses
           </label>
 
-          <input
-            type="text"
-            id="exclude-input"
-            value={gpa.excludeText}
-            onChange={(e) => gpa.setExcludeText(e.target.value)}
-          />
+          <div className="exclude-picker">
+            <div className="exclude-selected" aria-live="polite">
+              {gpa.excluded.length === 0 ? (
+                <span className="exclude-empty">No exclusions selected.</span>
+              ) : (
+                gpa.excluded.map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    className="exclude-chip selected"
+                    onClick={() => gpa.removeExcludedCode(code)}
+                    title="Click to remove"
+                  >
+                    {code} <span aria-hidden="true">×</span>
+                  </button>
+                ))
+              )}
+            </div>
+
+            <input
+              type="text"
+              id="exclude-search"
+              value={excludeSearch}
+              placeholder="Enter course code or name"
+              onChange={(e) => setExcludeSearch(e.target.value)}
+            />
+
+            {query && suggestions.length > 0 && (
+              <div className="exclude-suggestions" role="listbox" aria-label="Course suggestions">
+                {suggestions.map((course) => (
+                  <button
+                    key={course.code}
+                    type="button"
+                    className="exclude-suggestion-item"
+                    onClick={() => {
+                      gpa.addExcludedCode(course.code);
+                      setExcludeSearch("");
+                    }}
+                  >
+                    <span className="exclude-suggestion-code">{course.code}</span>
+                    <span className="exclude-suggestion-name">{course.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 8 }}>
-            Pre-filled with your custom exclusions.
+            Tap a selected chip to remove it. Search and tap a suggestion to add exclusions.
           </p>
 
           <div className="btn-center">

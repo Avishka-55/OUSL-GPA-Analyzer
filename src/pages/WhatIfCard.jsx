@@ -43,24 +43,28 @@ export default function WhatIfCard({ gpa }) {
                   </div>
                   <div className="whatif-name">{c.name}</div>
 
-                  <select
-                    className="whatif-select"
-                    value={gpa.whatIfGrades[c.code] || ""}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      gpa.setWhatIfGrades((prev) => ({
-                        ...prev,
-                        [c.code]: value || undefined,
-                      }));
-                    }}
-                  >
-                    <option value="">— Hypothesize —</option>
-                    {GRADE_ORDER.map((gr) => (
-                      <option key={gr} value={gr}>
-                        {gr}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="whatif-grade-grid" role="group" aria-label={`Projected grade for ${c.code}`}>
+                    {GRADE_ORDER.map((gr) => {
+                      const isSelected = gpa.whatIfGrades[c.code] === gr;
+
+                      return (
+                        <button
+                          key={gr}
+                          type="button"
+                          className={"whatif-grade-btn" + (isSelected ? " active" : "")}
+                          aria-pressed={isSelected}
+                          onClick={() => {
+                            gpa.setWhatIfGrades((prev) => ({
+                              ...prev,
+                              [c.code]: isSelected ? undefined : gr,
+                            }));
+                          }}
+                        >
+                          {gr}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
           </div>
