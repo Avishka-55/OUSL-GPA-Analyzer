@@ -61,6 +61,10 @@ export function getDegreeClass(gpa) {
   return DEGREE_CLASSES.find((c) => gpa >= c.minGPA) || DEGREE_CLASSES[DEGREE_CLASSES.length - 1];
 }
 
+export function formatGpa(value, decimals = 4) {
+  return Number.isFinite(value) ? value.toFixed(decimals) : "0.0000";
+}
+
 export function gradeColor(grade) {
   const g = GPV[grade] ?? 0;
   if (g >= 3.7) return { color: "#22543D", bg: "#C6F6D5" };

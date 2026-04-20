@@ -1,4 +1,4 @@
-import { getDegreeClass } from "../lib/gpa.jsx";
+import { formatGpa, getDegreeClass } from "../lib/gpa.jsx";
 
 export default function LevelGpaBars({ levelGPA }) {
   return (
@@ -12,7 +12,7 @@ export default function LevelGpaBars({ levelGPA }) {
             <div className="prog-header">
               <span className="prog-label">Level {l.level}</span>
               <span className="prog-val" style={{ color: cls.color }}>
-                {l.gpa.toFixed(2)}
+                {formatGpa(l.gpa)}
               </span>
             </div>
             <div className="prog-track">

@@ -1,4 +1,4 @@
-import { DEGREE_CLASSES, GPV, gpvMeetsGrade } from "../lib/gpa.jsx";
+import { DEGREE_CLASSES, GPV, formatGpa, gpvMeetsGrade } from "../lib/gpa.jsx";
 
 export default function RequirementsBreakdown({ degreeCrit, gpaValue, gradeDist, included, activeLabel }) {
   const totalCreditsNow = included.reduce((s, c) => s + (c.credits || 0), 0);
@@ -58,7 +58,7 @@ export default function RequirementsBreakdown({ degreeCrit, gpaValue, gradeDist,
                 <div className="crit-text">
                   <span className="crit-title">GPA Req</span>
                   <span className="crit-detail">
-                    Need ≥ {c.minGPA.toFixed(2)} · You: {gpaValue.toFixed(2)}
+                    Need ≥ {c.minGPA.toFixed(2)} · You: {formatGpa(gpaValue)}
                   </span>
                 </div>
               </div>

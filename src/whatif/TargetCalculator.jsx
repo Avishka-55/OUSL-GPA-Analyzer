@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GPV, GRADE_ORDER, effectiveCredit, getCredits, getLevel } from "../lib/gpa.jsx";
+import { GPV, GRADE_ORDER, effectiveCredit, formatGpa, getCredits, getLevel } from "../lib/gpa.jsx";
 
 export default function TargetCalculator({ degreeType, excluded, allCourses, baseData }) {
   const [target, setTarget] = useState(3.7);
@@ -30,7 +30,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       setResult({
         kind: "ok",
         title: "Secured!",
-        body: `You've already locked in this class. Even if you bomb the remaining courses, your GPA won't drop below ${target.toFixed(2)}.`,
+        body: `You've already locked in this class. Even if you bomb the remaining courses, your GPA won't drop below ${formatGpa(target)}.`,
       });
       return;
     }
@@ -39,7 +39,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       setResult({
         kind: "bad",
         title: "Mathematically impossible.",
-        body: `Even if you pull straight A+ grades across all remaining courses, you won't reach ${target.toFixed(2)}.`,
+        body: `Even if you pull straight A+ grades across all remaining courses, you won't reach ${formatGpa(target)}.`,
       });
       return;
     }
@@ -109,7 +109,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
               </div>
               <div>
                 <p style={{ fontSize: 14, fontWeight: 500 }}>
-                  You need an average GPV of <strong>{result.neededAvgGPV.toFixed(2)}</strong> across all remaining courses.
+                  You need an average GPV of <strong>{formatGpa(result.neededAvgGPV)}</strong> across all remaining courses.
                 </p>
                 <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>
                   That basically means you need to average a {result.closestGrade} to clutch the degree class.

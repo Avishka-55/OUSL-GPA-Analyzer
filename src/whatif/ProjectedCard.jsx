@@ -1,3 +1,5 @@
+import { formatGpa } from "../lib/gpa.jsx";
+
 export default function ProjectedCard({ projected }) {
   const { projGPA, cls, delta } = projected;
 
@@ -5,7 +7,7 @@ export default function ProjectedCard({ projected }) {
     <div className="whatif-result-card" style={{ marginTop: 24 }}>
       <div className="whatif-label">Projected Final GPA</div>
       <div className="whatif-gpa" style={{ color: cls.color }}>
-        {projGPA.toFixed(2)}
+        {formatGpa(projGPA)}
       </div>
 
       <div>

@@ -8,6 +8,7 @@ import CreditProgress from "../report/CreditProgress.jsx";
 import LevelGpaBars from "../report/LevelGpaBars.jsx";
 import RequirementsBreakdown from "../report/RequirementsBreakdown.jsx";
 import CourseTables from "../report/CourseTables.jsx";
+import { formatGpa } from "../lib/gpa.jsx";
 
 export default function ReportCard({ gpa }) {
   const { baseData, degreeType, activeClass } = gpa;
@@ -23,7 +24,7 @@ export default function ReportCard({ gpa }) {
 
         <div className="gpa-hero">
           <div className="gpa-number" style={{ color: activeClass.color }}>
-            {baseData.gpa.toFixed(2)}
+            {formatGpa(baseData.gpa)}
           </div>
           <div className="gpa-label">Current Grade Point Average</div>
           <DegreeBadge label={activeClass.label} color={activeClass.color} bg={activeClass.bg} />
