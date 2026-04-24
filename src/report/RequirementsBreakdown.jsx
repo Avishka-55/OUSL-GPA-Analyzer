@@ -33,7 +33,7 @@ export default function RequirementsBreakdown({ degreeCrit, gpaValue, gradeDist,
             if (l56q < req.l56credits) gradePass = false;
           }
 
-          gradeDetail = `${req.grade}+ in ≥${req.credits}cr · You: ${qualCredits}cr${l56note}`;
+          gradeDetail = `${req.grade} or better in ≥${req.credits}cr · You: ${qualCredits}cr${l56note}`;
         }
 
         const creditsPass = totalCreditsNow >= degreeCrit.totalCredits;

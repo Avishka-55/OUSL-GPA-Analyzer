@@ -65,6 +65,7 @@ export function useGpaAnalyzer() {
 
     const included = [];
     const skipped = [];
+    const gradesWithGPV = [];
 
     for (const c of allCourses) {
       const code = (c.code || "").toUpperCase();
@@ -92,12 +93,36 @@ export function useGpaAnalyzer() {
         continue;
       }
 
-      const level = getLevel(c.code);
-      const effCredit = effectiveCredit(cr, level, degreeType);
-      const gpv = GPV[c.grade];
-      const weighted = effCredit * gpv;
+      gradesWithGPV.push({ ...c, code, cr });
+    }
 
-      included.push({ ...c, credits: cr, level, gpv, effCredit, weighted });
+    const bestByCode = {};
+    const lowerGrades = [];
+
+    for (const c of gradesWithGPV) {
+      const gpv = GPV[c.grade];
+      if (!bestByCode[c.code]) {
+        bestByCode[c.code] = { ...c, gpv };
+      } else {
+        if (gpv > bestByCode[c.code].gpv) {
+          lowerGrades.push(bestByCode[c.code]);
+          bestByCode[c.code] = { ...c, gpv };
+        } else {
+          lowerGrades.push({ ...c, gpv });
+        }
+      }
+    }
+
+    for (const c of lowerGrades) {
+      skipped.push({ ...c, reason: "Lower Retake Grade" });
+    }
+
+    for (const c of Object.values(bestByCode)) {
+      const level = getLevel(c.code);
+      const effCredit = effectiveCredit(c.cr, level, degreeType);
+      const weighted = effCredit * c.gpv;
+
+      included.push({ ...c, credits: c.cr, level, effCredit, weighted });
     }
 
     const totalEffCredits = included.reduce((s, c) => s + c.effCredit, 0);
@@ -160,11 +185,22 @@ export function useGpaAnalyzer() {
 
   const incompleteCourses = useMemo(() => {
     if (!allCourses.length) return [];
-    return allCourses.filter((c) => {
+    const pendings = allCourses.filter((c) => {
       const code = (c.code || "").toUpperCase();
       if (excluded.includes(code)) return false;
       return c.status === "Eligible" || c.status === "Pending" || c.grade === "-";
     });
+    
+    const seen = new Set();
+    const uniquePendings = [];
+    for (const c of pendings) {
+      const code = (c.code || "").toUpperCase();
+      if (!seen.has(code)) {
+        seen.add(code);
+        uniquePendings.push(c);
+      }
+    }
+    return uniquePendings;
   }, [allCourses, excluded]);
 
   const projected = useMemo(() => {
@@ -178,14 +214,27 @@ export function useGpaAnalyzer() {
       const g = whatIfGrades[c.code];
       if (!g) continue;
 
+      const code = (c.code || "").toUpperCase();
       const cr = getCredits(c.code);
       const level = getLevel(c.code);
       if (!cr) continue;
 
       const eff = effectiveCredit(cr, level, degreeType);
-      newEff += eff;
-      newW += eff * GPV[g];
-      addedAny = true;
+      const newGpv = GPV[g];
+
+      const prevAttempt = baseData.included.find(inc => inc.code === code);
+
+      if (prevAttempt) {
+        if (newGpv > prevAttempt.gpv) {
+          newEff = newEff - prevAttempt.effCredit + eff;
+          newW = newW - prevAttempt.weighted + (eff * newGpv);
+          addedAny = true;
+        }
+      } else {
+        newEff += eff;
+        newW += eff * newGpv;
+        addedAny = true;
+      }
     }
 
     if (!addedAny) return null;
