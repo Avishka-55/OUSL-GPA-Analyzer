@@ -183,6 +183,32 @@ export function useGpaAnalyzer() {
     );
   }, [baseData, degreeCrit.totalCredits]);
 
+  const excessCreditsInfo = useMemo(() => {
+    if (!baseData) return null;
+    const level5Data = baseData.levelGPA.find((l) => l.level === 5);
+    const level6Data = baseData.levelGPA.find((l) => l.level === 6);
+    const level5Credits = level5Data ? level5Data.realCredits : 0;
+    const level6Credits = level6Data ? level6Data.realCredits : 0;
+    const totalCredits = baseData.totalRealCredits;
+    const targetCredits = degreeCrit.totalCredits;
+
+    const isExcess =
+      totalCredits > targetCredits ||
+      level5Credits > 30 ||
+      (degreeType === "honours" && level6Credits > 30);
+
+    if (isExcess) {
+      return {
+        totalCredits,
+        targetCredits,
+        level5Credits,
+        level6Credits,
+        extraCredits: Math.max(0, totalCredits - targetCredits),
+      };
+    }
+    return null;
+  }, [baseData, degreeCrit.totalCredits, degreeType]);
+
   const incompleteCourses = useMemo(() => {
     if (!allCourses.length) return [];
     const pendings = allCourses.filter((c) => {
@@ -330,6 +356,7 @@ export function useGpaAnalyzer() {
     baseData,
     activeClass,
     progressPct,
+    excessCreditsInfo,
     incompleteCourses,
     projected,
 

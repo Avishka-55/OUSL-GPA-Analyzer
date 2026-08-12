@@ -65,9 +65,45 @@ export default function SetupCard({ gpa }) {
         <>
           <div className="divider" style={{ marginTop: 40 }} />
 
+          {gpa.excessCreditsInfo && (
+            <div
+              className="excess-notice"
+              style={{
+                margin: "16px 0 24px 0",
+                padding: "14px 18px",
+                borderRadius: "10px",
+                backgroundColor: "#FEFCBF",
+                border: "1px solid #F6E05E",
+                color: "#744210",
+                fontSize: "14px",
+                lineHeight: "1.5",
+              }}
+            >
+              <strong style={{ display: "block", marginBottom: 4 }}>
+                ⚠️ Excess Credits Notice:
+              </strong>
+              <span>
+                You have completed{" "}
+                {gpa.degreeType === "honours" && gpa.excessCreditsInfo.level6Credits > 30
+                  ? `${gpa.excessCreditsInfo.level6Credits} credits at Level 6`
+                  : gpa.excessCreditsInfo.level5Credits > 30
+                  ? `${gpa.excessCreditsInfo.level5Credits} credits at Level 5`
+                  : `${gpa.excessCreditsInfo.totalCredits} total credits`}
+                , bringing your total to {gpa.excessCreditsInfo.totalCredits} credits.
+                However, GPA is only calculated for {gpa.excessCreditsInfo.targetCredits} credits (
+                {gpa.degreeType === "general" ? "General Degree" : "Honours Degree"}).
+                Please select the course(s) you wish to exclude from the GPA calculation in the exclude box below.
+              </span>
+            </div>
+          )}
+
           <label className="field-label" htmlFor="exclude-search">
-            Exclude non-GPA courses
+            Exclude Extra Courses if any & Continuing Education Courses
           </label>
+          <p style={{ fontSize: 13, color: "var(--muted)", marginBottom: 12, lineHeight: "1.4" }}>
+            Exclude extra courses not used to calculate your GPA, Continuing Education Courses, or any courses which you wish not to include in your GPA calculation.
+            Note: Common Continuing Education Courses are excluded by default—please check the selected list carefully.
+          </p>
 
           <div className="exclude-picker">
             <div className="exclude-selected" aria-live="polite">
