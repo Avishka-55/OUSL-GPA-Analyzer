@@ -14,7 +14,7 @@ import {
 export function useGpaAnalyzer() {
   const [degreeType, setDegreeType] = useState("general");
   const [excludeText, setExcludeText] = useState(
-    "LTE3401, FDE3020, CYE3200, CSE3213, FNE3000, ADE3200"
+    "LTE3401, FDE3020, CYE3200, CSE3213, FNE3000, ADE3200, LTE34GE, LEE3410, FDE3021"
   );
 
   const [fileLabel, setFileLabel] = useState(
