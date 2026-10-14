@@ -50,6 +50,38 @@ export default function ReportCard({ gpa }) {
           includedCount={baseData.included.length}
         />
 
+        {degreeType === "honours" && (
+          <div
+            className="honours-notice"
+            style={{
+              margin: "16px 0 0 0",
+              padding: "10px 14px",
+              borderRadius: "8px",
+              backgroundColor: "#EBF8FF",
+              border: "1px solid #BEE3F8",
+              color: "#2A4365",
+              fontSize: "12px",
+              lineHeight: "1.5",
+              textAlign: "center",
+            }}
+          >
+            <strong
+              style={{
+                color: "#C53030",
+                backgroundColor: "#FED7D7",
+                padding: "2px 7px",
+                borderRadius: "4px",
+                display: "inline-block",
+                marginRight: "6px",
+                fontWeight: "700",
+              }}
+            >
+              📌 Please Read:
+            </strong>{" "}
+            In Honours / Special degrees, GPA calculation methods can vary from department to department based on the major subject. Therefore, please confirm with your department guidelines. In this report, weighted GPA is used across all 4 levels.
+          </div>
+        )}
+
         <div className="divider"></div>
 
         <div className="sub-title">Degree Classification Path</div>

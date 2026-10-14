@@ -45,6 +45,37 @@ export default function SetupCard({ gpa }) {
 
       <DegreeToggle degreeType={gpa.degreeType} onChange={gpa.setDegreeType} />
 
+      {gpa.degreeType === "honours" && (
+        <div
+          className="honours-notice"
+          style={{
+            margin: "14px 0 16px 0",
+            padding: "12px 16px",
+            borderRadius: "8px",
+            backgroundColor: "#EBF8FF",
+            border: "1px solid #BEE3F8",
+            color: "#2A4365",
+            fontSize: "13px",
+            lineHeight: "1.5",
+          }}
+        >
+          <strong
+            style={{
+              color: "#C53030",
+              backgroundColor: "#FED7D7",
+              padding: "2px 7px",
+              borderRadius: "4px",
+              display: "inline-block",
+              marginRight: "6px",
+              fontWeight: "700",
+            }}
+          >
+            📌 Please Read:
+          </strong>{" "}
+          In Honours / Special degrees, GPA calculation methods can vary from department to department based on the major subject. Therefore, please confirm with your department guidelines. In this tool, we calculate GPA using the weighted GPA value across all 4 levels.
+        </div>
+      )}
+
       <Dropzone
         label={gpa.fileLabel}
         hint="Exports straight from the myOUSL portal"
@@ -65,37 +96,77 @@ export default function SetupCard({ gpa }) {
         <>
           <div className="divider" style={{ marginTop: 40 }} />
 
-          {gpa.excessCreditsInfo && (
-            <div
-              className="excess-notice"
-              style={{
-                margin: "16px 0 24px 0",
-                padding: "14px 18px",
-                borderRadius: "10px",
-                backgroundColor: "#FEFCBF",
-                border: "1px solid #F6E05E",
-                color: "#744210",
-                fontSize: "14px",
-                lineHeight: "1.5",
-              }}
-            >
-              <strong style={{ display: "block", marginBottom: 4 }}>
-                ⚠️ Excess Credits Notice:
-              </strong>
-              <span>
-                You have completed{" "}
-                {gpa.degreeType === "honours" && gpa.excessCreditsInfo.level6Credits > 30
-                  ? `${gpa.excessCreditsInfo.level6Credits} credits at Level 6`
-                  : gpa.excessCreditsInfo.level5Credits > 30
-                  ? `${gpa.excessCreditsInfo.level5Credits} credits at Level 5`
-                  : `${gpa.excessCreditsInfo.totalCredits} total credits`}
-                , bringing your total to {gpa.excessCreditsInfo.totalCredits} credits.
-                However, GPA is only calculated for {gpa.excessCreditsInfo.targetCredits} credits (
-                {gpa.degreeType === "general" ? "General Degree" : "Honours Degree"}).
-                Please select the course(s) you wish to exclude from the GPA calculation in the exclude box below.
-              </span>
-            </div>
-          )}
+          {gpa.excessCreditsInfo && (() => {
+            const notices = [];
+            if (gpa.excessCreditsInfo.hasLevel5Excess) {
+              notices.push(
+                <>
+                  You have completed{" "}
+                  <strong>{gpa.excessCreditsInfo.level5Credits} credits at Level 5</strong>, but a
+                  maximum of <strong>30 credits</strong> at Level 5 can be counted toward your degree (
+                  {gpa.excessCreditsInfo.level5Extra} excess credit
+                  {gpa.excessCreditsInfo.level5Extra > 1 ? "s" : ""}).
+                </>
+              );
+            }
+            if (gpa.excessCreditsInfo.hasLevel6Excess) {
+              notices.push(
+                <>
+                  You have completed{" "}
+                  <strong>{gpa.excessCreditsInfo.level6Credits} credits at Level 6</strong>, but a
+                  maximum of <strong>30 credits</strong> at Level 6 can be counted toward your degree (
+                  {gpa.excessCreditsInfo.level6Extra} excess credit
+                  {gpa.excessCreditsInfo.level6Extra > 1 ? "s" : ""}).
+                </>
+              );
+            }
+            if (gpa.excessCreditsInfo.hasTotalExcess) {
+              notices.push(
+                <>
+                  You have completed{" "}
+                  <strong>{gpa.excessCreditsInfo.totalCredits} total credits</strong>, but GPA is
+                  only calculated for <strong>{gpa.excessCreditsInfo.targetCredits} credits</strong> (
+                  {gpa.degreeType === "general" ? "General Degree" : "Honours Degree"}) (
+                  {gpa.excessCreditsInfo.totalExtra} excess credit
+                  {gpa.excessCreditsInfo.totalExtra > 1 ? "s" : ""}).
+                </>
+              );
+            }
+
+            return (
+              <div
+                className="excess-notice"
+                style={{
+                  margin: "16px 0 24px 0",
+                  padding: "14px 18px",
+                  borderRadius: "10px",
+                  backgroundColor: "#FEFCBF",
+                  border: "1px solid #F6E05E",
+                  color: "#744210",
+                  fontSize: "14px",
+                  lineHeight: "1.5",
+                }}
+              >
+                <strong style={{ display: "block", marginBottom: 6 }}>
+                  ⚠️ Excess Credits Notice:
+                </strong>
+                {notices.length === 1 ? (
+                  <p style={{ margin: "0 0 6px 0" }}>{notices[0]}</p>
+                ) : (
+                  <ul style={{ margin: "0 0 8px 18px", padding: 0 }}>
+                    {notices.map((note, idx) => (
+                      <li key={idx} style={{ marginBottom: 4 }}>
+                        {note}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <span>
+                  Please select the course(s) you wish to exclude from the GPA calculation in the exclude box below.
+                </span>
+              </div>
+            );
+          })()}
 
           <label className="field-label" htmlFor="exclude-search">
             Exclude Extra Courses if any & Continuing Education Courses

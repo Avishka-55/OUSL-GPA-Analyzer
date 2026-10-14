@@ -192,17 +192,22 @@ export function useGpaAnalyzer() {
     const totalCredits = baseData.totalRealCredits;
     const targetCredits = degreeCrit.totalCredits;
 
-    const isExcess =
-      totalCredits > targetCredits ||
-      level5Credits > 30 ||
-      (degreeType === "honours" && level6Credits > 30);
+    const hasLevel5Excess = level5Credits > 30;
+    const hasLevel6Excess = degreeType === "honours" && level6Credits > 30;
+    const hasTotalExcess = totalCredits > targetCredits;
 
-    if (isExcess) {
+    if (hasLevel5Excess || hasLevel6Excess || hasTotalExcess) {
       return {
         totalCredits,
         targetCredits,
         level5Credits,
         level6Credits,
+        hasLevel5Excess,
+        hasLevel6Excess,
+        hasTotalExcess,
+        level5Extra: Math.max(0, level5Credits - 30),
+        level6Extra: Math.max(0, level6Credits - 30),
+        totalExtra: Math.max(0, totalCredits - targetCredits),
         extraCredits: Math.max(0, totalCredits - targetCredits),
       };
     }
