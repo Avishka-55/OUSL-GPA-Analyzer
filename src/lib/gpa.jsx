@@ -276,3 +276,194 @@ function findEndOfCentralDirectory(bytes) {
 
   return -1;
 }
+
+export const MAIN_SUBJECTS = {
+  CSU: { code: "CSU", name: "Computer Science" },
+  PHU: { code: "PHU", name: "Physics" },
+  CYU: { code: "CYU", name: "Chemistry" },
+  CMU: { code: "CYU", name: "Chemistry" },
+  CHU: { code: "CYU", name: "Chemistry" },
+  ADU: { code: "ADU", name: "Applied Mathematics" },
+  AMU: { code: "ADU", name: "Applied Mathematics" },
+  PEU: { code: "PEU", name: "Pure Mathematics" },
+  PMU: { code: "PEU", name: "Pure Mathematics" },
+  BYU: { code: "BYU", name: "Botany" },
+  BTU: { code: "BYU", name: "Botany" },
+  ZYU: { code: "ZYU", name: "Zoology" },
+  ZLU: { code: "ZYU", name: "Zoology" },
+};
+
+export const CONTINUING_ED_PREFIXES = new Set([
+  "CYE",
+  "LTE",
+  "LEE",
+  "CSE",
+  "FDE",
+  "ADE",
+  "FNE",
+]);
+
+export const CONTINUING_ED_DEFAULT_CODES = new Set([
+  "CYE3200",
+  "LTE34GE",
+  "LEE3410",
+  "LTE3401",
+  "LTE3406",
+  "CSE3213",
+  "CSE3214",
+  "FDE3020",
+  "FDE3021",
+  "ADE3200",
+  "FNE3000",
+]);
+
+export function getSubjectCategory(code) {
+  if (!code) {
+    return {
+      key: "ELECTIVE_OTHER",
+      code: "Other",
+      name: "Electives & Other Courses",
+      isMain: false,
+    };
+  }
+  const clean = code.trim().toUpperCase();
+  const prefix = clean.slice(0, 3);
+
+  if (MAIN_SUBJECTS[prefix]) {
+    return {
+      key: MAIN_SUBJECTS[prefix].code,
+      code: MAIN_SUBJECTS[prefix].code,
+      name: MAIN_SUBJECTS[prefix].name,
+      isMain: true,
+    };
+  }
+
+  if (CONTINUING_ED_DEFAULT_CODES.has(clean) || CONTINUING_ED_PREFIXES.has(prefix)) {
+    return {
+      key: "CONT_ED",
+      code: "Cont. Ed",
+      name: "Continuing Education Courses",
+      isMain: false,
+    };
+  }
+
+  return {
+    key: "ELECTIVE_OTHER",
+    code: "Other",
+    name: "Electives & Other Courses",
+    isMain: false,
+  };
+}
+
+export function calculateSubjectBreakdown(courses = []) {
+  const groups = {};
+
+  for (const c of courses) {
+    const sub = getSubjectCategory(c.code);
+    if (!groups[sub.key]) {
+      groups[sub.key] = {
+        key: sub.key,
+        code: sub.code,
+        name: sub.name,
+        isMain: sub.isMain,
+        realCredits: 0,
+        effCredits: 0,
+        weighted: 0,
+        courses: [],
+      };
+    }
+    const realCr = c.credits ?? c.cr ?? 0;
+    const effCr = c.effCredit ?? realCr;
+    const wt = c.weighted ?? (effCr * (c.gpv ?? 0));
+
+    groups[sub.key].realCredits += realCr;
+    groups[sub.key].effCredits += effCr;
+    groups[sub.key].weighted += wt;
+    groups[sub.key].courses.push(c);
+  }
+
+  return Object.values(groups)
+    .map((g) => ({
+      key: g.key,
+      code: g.code,
+      name: g.name,
+      isMain: g.isMain,
+      realCredits: g.realCredits,
+      gpa: g.effCredits > 0 ? g.weighted / g.effCredits : 0,
+      courses: g.courses,
+    }))
+    .sort((a, b) => {
+      if (a.isMain && !b.isMain) return -1;
+      if (!a.isMain && b.isMain) return 1;
+      return b.realCredits - a.realCredits;
+    });
+}
+
+export function calculateSubjectsAcrossLevels(courses = []) {
+  const subjectsMap = {};
+
+  for (const c of courses) {
+    const sub = getSubjectCategory(c.code);
+    if (!subjectsMap[sub.key]) {
+      subjectsMap[sub.key] = {
+        key: sub.key,
+        code: sub.code,
+        name: sub.name,
+        isMain: sub.isMain,
+        totalRealCredits: 0,
+        totalEffCredits: 0,
+        totalWeighted: 0,
+        levels: {},
+      };
+    }
+
+    const realCr = c.credits ?? c.cr ?? 0;
+    const effCr = c.effCredit ?? realCr;
+    const wt = c.weighted ?? (effCr * (c.gpv ?? 0));
+    const lvl = c.level ?? getLevel(c.code) ?? 3;
+
+    subjectsMap[sub.key].totalRealCredits += realCr;
+    subjectsMap[sub.key].totalEffCredits += effCr;
+    subjectsMap[sub.key].totalWeighted += wt;
+
+    if (!subjectsMap[sub.key].levels[lvl]) {
+      subjectsMap[sub.key].levels[lvl] = {
+        level: lvl,
+        realCredits: 0,
+        effCredits: 0,
+        weighted: 0,
+      };
+    }
+    subjectsMap[sub.key].levels[lvl].realCredits += realCr;
+    subjectsMap[sub.key].levels[lvl].effCredits += effCr;
+    subjectsMap[sub.key].levels[lvl].weighted += wt;
+  }
+
+  return Object.values(subjectsMap)
+    .map((s) => {
+      const levelList = Object.values(s.levels)
+        .map((lvl) => ({
+          level: lvl.level,
+          realCredits: lvl.realCredits,
+          gpa: lvl.effCredits > 0 ? lvl.weighted / lvl.effCredits : 0,
+        }))
+        .sort((a, b) => a.level - b.level);
+
+      const overallGpa = s.totalEffCredits > 0 ? s.totalWeighted / s.totalEffCredits : 0;
+
+      return {
+        key: s.key,
+        code: s.code,
+        name: s.name,
+        isMain: s.isMain,
+        totalRealCredits: s.totalRealCredits,
+        overallGpa,
+        levels: levelList,
+      };
+    })
+    .sort((a, b) => {
+      if (a.isMain && !b.isMain) return -1;
+      if (!a.isMain && b.isMain) return 1;
+      return b.totalRealCredits - a.totalRealCredits;
+    });
+}

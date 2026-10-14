@@ -16,7 +16,11 @@ export default function CreditProgress({ degreeCrit, levelGPA }) {
               </span>
             </div>
             <div className="prog-track">
-              <div className="prog-fill" data-pct={pct} style={{ background: col }} />
+              <div
+                className="prog-fill"
+                data-pct={pct}
+                style={{ width: `${Math.min(Math.max(pct, 0), 100)}%`, background: col }}
+              />
             </div>
           </div>
         );

@@ -16,7 +16,11 @@ export default function LevelGpaBars({ levelGPA }) {
               </span>
             </div>
             <div className="prog-track">
-              <div className="prog-fill" data-pct={pct} style={{ background: cls.color }} />
+              <div
+                className="prog-fill"
+                data-pct={pct}
+                style={{ width: `${Math.min(Math.max(pct, 0), 100)}%`, background: cls.color }}
+              />
             </div>
           </div>
         );

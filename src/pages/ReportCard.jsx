@@ -6,6 +6,7 @@ import StatRow from "../report/StatRow.jsx";
 import ClassificationPath from "../report/ClassificationPath.jsx";
 import CreditProgress from "../report/CreditProgress.jsx";
 import LevelGpaBars from "../report/LevelGpaBars.jsx";
+import SubjectGpaCards from "../report/SubjectGpaCards.jsx";
 import RequirementsBreakdown from "../report/RequirementsBreakdown.jsx";
 import CourseTables from "../report/CourseTables.jsx";
 import { formatGpa } from "../lib/gpa.jsx";
@@ -89,6 +90,9 @@ export default function ReportCard({ gpa }) {
 
         <div className="sub-title">Credit Progress by Level</div>
         <CreditProgress degreeCrit={degreeCrit} levelGPA={baseData.levelGPA} />
+
+        <div className="sub-title">GPA by Subject & Level (Experimental)</div>
+        <SubjectGpaCards included={baseData.included} />
 
         <div className="sub-title">GPA by Level</div>
         <LevelGpaBars levelGPA={baseData.levelGPA} />

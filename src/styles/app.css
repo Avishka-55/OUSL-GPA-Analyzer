@@ -178,6 +178,24 @@ label.field-label{font-size:13px;font-weight:600;color:var(--text);display:block
 .prog-track{background:var(--border-light);border-radius:10px;height:10px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:10px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
 
+/* Subject Metric Cards Grid (Option 3 - No progress bars) */
+.subject-cards-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:16px;margin-bottom:32px;}
+.subject-metric-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:transform .2s, box-shadow .2s;}
+.subject-metric-card:hover{border-color:var(--border);box-shadow:var(--shadow-md);}
+.subject-card-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--border-light);margin-bottom:12px;}
+.subject-card-title-group{display:flex;align-items:center;gap:8px;}
+.subject-code-chip{font-family:'Courier Prime',monospace;font-size:11px;font-weight:700;background:var(--maroon-pale);color:var(--maroon);border:1px solid #FED7D7;padding:2px 7px;border-radius:4px;}
+.subject-card-name{font-size:14px;font-weight:600;color:var(--text);}
+.subject-card-cr-badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--bg-color);border:1px solid var(--border-light);padding:2px 8px;border-radius:12px;}
+.subject-levels-list{display:flex;flex-direction:column;gap:8px;flex-grow:1;margin-bottom:14px;}
+.subject-level-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--bg-color);border:1px solid var(--border-light);border-radius:6px;font-size:13px;}
+.subject-level-tag{font-weight:600;color:var(--text);min-width:60px;}
+.subject-level-cr{color:var(--muted);font-size:12px;}
+.subject-level-gpa{font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;}
+.subject-card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed var(--border);margin-top:auto;}
+.subject-footer-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.subject-footer-gpa{font-family:'Courier Prime',monospace;font-weight:700;font-size:15px;}
+
 .cls-row{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;margin-bottom:10px;border-radius:8px;border:1px solid var(--border-light);transition:all .3s;}
 .cls-row.active{border-color:transparent;transform:scale(1.02);box-shadow:var(--shadow-sm);}
 .cls-name{font-size:15px;font-weight:600;}
@@ -273,7 +291,7 @@ td.muted{color:var(--muted);font-style:italic;font-size:13px;}
   @page { size: A4; margin: 12mm; }
   body { background: #fff !important; padding-bottom: 0 !important; }
 
-  header, #card-setup, #card-whatif, .footer-note, #pdf-btn, .toggle-view-btn {
+  header, #card-setup, #card-whatif, .footer-note, #pdf-btn, .toggle-view-btn, .level-toggle-btn, .level-all-toggle-wrap {
     display: none !important;
   }
 
