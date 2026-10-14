@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GPV, GRADE_ORDER, effectiveCredit, formatGpa, getCredits, getLevel } from "../lib/gpa.jsx";
 
-export default function TargetCalculator({ degreeType, excluded, allCourses, baseData }) {
+export default function TargetCalculator({ degreeType, excluded, allCourses, baseData, degreeCrit }) {
   const [target, setTarget] = useState("3.70");
   const [result, setResult] = useState(null);
 
@@ -14,14 +14,29 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       return c.status === "Eligible" || c.status === "Pending" || c.grade === "-";
     });
 
-    const remainingEff = incomplete.reduce((s, c) => {
+    let remainingEff = incomplete.reduce((s, c) => {
       const cr = getCredits(c.code);
       if (!cr) return s;
       return s + effectiveCredit(cr, getLevel(c.code), degreeType);
     }, 0);
 
+    let remainingCreditsCount = incomplete.reduce((s, c) => s + (getCredits(c.code) || 0), 0);
+
+    const targetDegreeCredits = degreeCrit?.totalCredits ?? (degreeType === "general" ? 90 : 120);
+    const missingCredits = Math.max(0, targetDegreeCredits - (baseData?.totalRealCredits ?? 0));
+
+    let isEstimateFromMissing = false;
+    if (remainingEff === 0 && missingCredits > 0) {
+      isEstimateFromMissing = true;
+      remainingCreditsCount = missingCredits;
+      remainingEff = degreeType === "honours" ? missingCredits * 3 : missingCredits;
+    }
+
     if (remainingEff === 0) {
-      setResult({ kind: "info", message: "You have no remaining courses to factor in!" });
+      setResult({
+        kind: "info",
+        message: "You have completed all degree credits and have no remaining courses to factor in!",
+      });
       return;
     }
 
@@ -32,7 +47,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       setResult({
         kind: "ok",
         title: "Secured!",
-        body: `You've already locked in this class. Even if you bomb the remaining courses, your GPA won't drop below ${formatGpa(targetNum)}.`,
+        body: `You've already locked in this class. Even if you bomb the remaining ${remainingCreditsCount} credits, your GPA won't drop below ${formatGpa(targetNum)}.`,
       });
       return;
     }
@@ -41,13 +56,20 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       setResult({
         kind: "bad",
         title: "Mathematically impossible.",
-        body: `Even if you pull straight A+ grades across all remaining courses, you won't reach ${formatGpa(targetNum)}.`,
+        body: `Even if you pull straight A+ grades across your remaining ${remainingCreditsCount} credits, you won't reach ${formatGpa(targetNum)}.`,
       });
       return;
     }
 
     const closestGrade = [...GRADE_ORDER].reverse().find((g) => GPV[g] >= neededAvgGPV) || "A+";
-    setResult({ kind: "need", closestGrade, neededAvgGPV });
+    setResult({
+      kind: "need",
+      closestGrade,
+      neededAvgGPV,
+      creditsCount: remainingCreditsCount,
+      isEstimateFromMissing,
+      targetDegreeCredits,
+    });
   }
 
   return (
@@ -120,10 +142,12 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
               </div>
               <div>
                 <p style={{ fontSize: 14, fontWeight: 500 }}>
-                  You need an average GPV of <strong>{formatGpa(result.neededAvgGPV)}</strong> across all remaining courses.
+                  You need an average GPV of <strong>{formatGpa(result.neededAvgGPV)}</strong> across your {result.creditsCount ? `${result.creditsCount} remaining credits` : "remaining courses"}.
                 </p>
                 <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>
-                  That basically means you need to average a {result.closestGrade} to clutch the degree class.
+                  {result.isEstimateFromMissing
+                    ? `Based on the ${result.creditsCount} credits remaining to complete your ${result.targetDegreeCredits}-credit degree, you need to average a ${result.closestGrade} to clutch this class.`
+                    : `That basically means you need to average a ${result.closestGrade} to clutch the degree class.`}
                 </p>
               </div>
             </div>
