@@ -2,10 +2,12 @@ import { useState } from "react";
 import { GPV, GRADE_ORDER, effectiveCredit, formatGpa, getCredits, getLevel } from "../lib/gpa.jsx";
 
 export default function TargetCalculator({ degreeType, excluded, allCourses, baseData }) {
-  const [target, setTarget] = useState(3.7);
+  const [target, setTarget] = useState("3.70");
   const [result, setResult] = useState(null);
 
-  function calcTarget() {
+  function calcTarget(targetVal = target) {
+    const targetNum = typeof targetVal === "number" ? targetVal : parseFloat(targetVal);
+
     const incomplete = allCourses.filter((c) => {
       const code = (c.code || "").toUpperCase();
       if (excluded.includes(code)) return false;
@@ -23,14 +25,14 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       return;
     }
 
-    const neededW = target * (baseData.totalEffCredits + remainingEff) - baseData.totalWeighted;
+    const neededW = targetNum * (baseData.totalEffCredits + remainingEff) - baseData.totalWeighted;
     const neededAvgGPV = neededW / remainingEff;
 
     if (neededAvgGPV <= 0) {
       setResult({
         kind: "ok",
         title: "Secured!",
-        body: `You've already locked in this class. Even if you bomb the remaining courses, your GPA won't drop below ${formatGpa(target)}.`,
+        body: `You've already locked in this class. Even if you bomb the remaining courses, your GPA won't drop below ${formatGpa(targetNum)}.`,
       });
       return;
     }
@@ -39,7 +41,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       setResult({
         kind: "bad",
         title: "Mathematically impossible.",
-        body: `Even if you pull straight A+ grades across all remaining courses, you won't reach ${formatGpa(target)}.`,
+        body: `Even if you pull straight A+ grades across all remaining courses, you won't reach ${formatGpa(targetNum)}.`,
       });
       return;
     }
@@ -58,7 +60,16 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
       <div style={{ display: "flex", gap: 16, alignItems: "flex-end", flexWrap: "wrap", marginBottom: 20 }}>
         <div style={{ flex: 1, minWidth: 200 }}>
           <label className="field-label">Desired Degree Class</label>
-          <select value={String(target)} onChange={(e) => setTarget(parseFloat(e.target.value))}>
+          <select
+            value={target}
+            onChange={(e) => {
+              const val = e.target.value;
+              setTarget(val);
+              if (result) {
+                calcTarget(val);
+              }
+            }}
+          >
             <option value="3.70">First Class (GPA ≥ 3.70)</option>
             <option value="3.30">Second Class Upper (GPA ≥ 3.30)</option>
             <option value="3.00">Second Class Lower (GPA ≥ 3.00)</option>
@@ -69,7 +80,7 @@ export default function TargetCalculator({ degreeType, excluded, allCourses, bas
         <button
           className="btn btn-outline"
           style={{ padding: "12px 24px", color: "var(--text)", borderColor: "var(--border)" }}
-          onClick={calcTarget}
+          onClick={() => calcTarget(target)}
         >
           Calculate Needed Grade
         </button>
