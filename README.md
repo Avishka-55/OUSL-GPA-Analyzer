@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B1A1A&height=220&section=header&text=OUSL%20GPA%20Analyzer&fontSize=48&fontAlignY=40&desc=Fast%2C%20Accurate%20%26%20Private%20Academic%20Analytics%20for%20Open%20University%20Students&descAlignY=62&descAlign=50" width="100%" alt="OUSL GPA Analyzer Banner"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B1A1A&height=220&section=header&text=OUSL%20GPA%20Analyzer&fontSize=48&fontAlignY=40&desc=Fast%2C%20Accurate%20and%20Private%20Academic%20Analytics%20for%20Open%20University%20Students&descAlignY=62&descAlign=50" width="100%" alt="OUSL GPA Analyzer Banner"/>
 </p>
 
 <p align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=8B1A1A&center=true&vCenter=true&width=650&lines=Instant+BSc+GPA+Analytics;Subject+%26+Level-wise+Discipline+Breakdowns;BSc+General+(90cr)+%26+Honours+(120cr)+Support;Smart+Excess+Credits+Intelligence;What-If+Scenario+GPA+Simulator;100%25+Client-Side+%26+Privacy-Focused" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=8B1A1A&center=true&vCenter=true&width=650&lines=Instant+BSc+GPA+Analytics;Subject+and+Level-wise+Discipline+Breakdowns;BSc+General+(90cr)+and+Honours+(120cr)+Support;Smart+Excess+Credits+Intelligence;What-If+Scenario+GPA+Simulator;100%25+Client-Side+and+Privacy-Focused" alt="Typing SVG" />
   </a>
 </p>
 
