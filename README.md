@@ -1,228 +1,221 @@
-# OUSL GPA Analyzer
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B1A1A&height=220&section=header&text=OUSL%20GPA%20Analyzer&fontSize=48&fontAlignY=40&desc=Fast%2C%20Accurate%20%26%20Private%20Academic%20Analytics%20for%20Open%20University%20Students&descAlignY=62&descAlign=50" width="100%" alt="OUSL GPA Analyzer Banner"/>
+</p>
 
-A modern web application for analyzing academic performance and calculating GPA for Open University of Sri Lanka (OUSL) students. Upload your grade sheet and get instant insights into your academic standing, projected grades, and degree classification.
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=8B1A1A&center=true&vCenter=true&width=650&lines=Instant+BSc+GPA+Analytics;Subject+%26+Level-wise+Discipline+Breakdowns;BSc+General+(90cr)+%26+Honours+(120cr)+Support;Smart+Excess+Credits+Intelligence;What-If+Scenario+GPA+Simulator;100%25+Client-Side+%26+Privacy-Focused" alt="Typing SVG" />
+  </a>
+</p>
 
-## Features
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
+  <img src="https://img.shields.io/badge/Vite-8.0-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/ESLint-Passing-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint" />
+  <img src="https://img.shields.io/badge/OUSL-SLQF%20Compliant-8B1A1A?style=for-the-badge" alt="OUSL SLQF" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
+</p>
 
-- 📊 **Real-time GPA Calculation** — Instantly compute your GPA based on uploaded grades.
-- 📁 **Multiple File Format Support** — Import grades from `.xls`, `.xlsx`, HTML exports, or directly from the myOUSL portal
-- 🎓 **Degree Type Support** — Analyze performance for both General and Honours degree programmes
-- 🔍 **Detailed Analytics** — View grade distribution, credit progress, level-wise GPA breakdown, and classification path
-- 🤔 **What-If Scenarios** — Project your final GPA with different grades for incomplete courses
-- 📄 **PDF Export** — Print or export your analysis report
-- 🎯 **Custom Exclusions** — Exclude non-GPA courses or electives from your calculation
-- 🚀 **Fast & Offline-Ready** — Client-side processing with no server dependency
+---
 
-## Supported File Formats.
+## 🌟 Overview
 
-| Format | Origin | Support |
-|--------|--------|---------|
-| `.xlsx` | Microsoft Excel, Google Sheets | ✅ Full support |
-| `.xls` | Legacy Excel | ✅ Full support |
-| HTML | myOUSL Portal export | ✅ Full support with table detection |
+**OUSL GPA Analyzer** is a comprehensive, privacy-first web application designed specifically for students of **The Open University of Sri Lanka (OUSL)**. 
 
-## Getting Started
+Simply drop your result sheet export (from the myOUSL portal in `.xlsx`, `.xls`, or `.html` format) to receive instant, in-depth academic analytics, degree classification tracking, discipline-level breakdowns, and future projections.
+
+> [!NOTE]
+> **100% Client-Side & Private:** All grade parsing, calculations, and analytics run completely inside your browser using Web APIs. No student IDs, marks, or personal data are ever uploaded to an external server.
+
+---
+
+## ✨ Features & Highlights
+
+### 🧪 1. GPA by Subject & Level (Experimental) — *NEW!*
+- **Discipline-Specific Cards:** Displays individual performance cards for your major disciplines across every completed level.
+- **Progress-Bar-Free Clean Metrics:** High-contrast metric cards focusing on raw numbers, credit quotas, and classification colors.
+- **Dual-Cohort Intelligence:** Fully supports both the modern post-2019 curriculum (Regulation No. 20.NS) and legacy pre-2019 curriculum course codes:
+  * 💻 **Computer Science:** `CSU`
+  * 🔬 **Physics:** `PHU`
+  * 🧪 **Chemistry:** `CYU` *(Modern)* & `CMU` *(Legacy)*
+  * 🌿 **Botany / Plant Sciences:** `BYU` *(Modern)* & `BTU` *(Legacy)*
+  * 🐾 **Zoology:** `ZYU` *(Modern)* & `ZLU` *(Legacy)*
+  * 📐 **Applied Mathematics:** `ADU` *(Modern)* & `AMU` *(Legacy)*
+  * ♾️ **Pure Mathematics:** `PEU` *(Modern)* & `PMU` *(Legacy)*
+  * 📚 **Continuing Education & Electives:** Categorized automatically.
+
+### ⚠️ 2. Smart Excess Credits Intelligence — *NEW!*
+- Under OUSL regulations, individual levels (specifically Level 5 and Level 6) are capped at **30 credits** for GPA computation.
+- The analyzer intelligently isolates when Level 5 or Level 6 exceeds 30 credits—even if total completed credits have not reached the 120-credit degree threshold—and guides you to exclude extra/elective courses cleanly.
+
+### 📌 3. Honours Department Calculation Advisories — *NEW!*
+- Highlighting that department-specific criteria may vary for Special/Honours programs based on major subject guidelines.
+- Clearly notes that weighted GPA ($\times 2$ for Levels 3 & 4; $\times 3$ for Levels 5 & 6) is applied across all 4 levels.
+
+### 📊 4. Core Degree Analytics & Classification
+- **Cumulative Final GPA:** Dynamic classification against OUSL thresholds:
+  * 🔴 **First Class:** GPA $\ge 3.70$
+  * 🟡 **Second Class (Upper Division):** GPA $\ge 3.30$
+  * 🔵 **Second Class (Lower Division):** GPA $\ge 3.00$
+  * 🟢 **Pass:** GPA $\ge 2.00$
+- **Credit Progress by Level:** Real-time visual tracking of completed credits against required quotas.
+- **Repeat / Retake Handling:** Best-grade retention logic automatically accounts for repeated courses without double-counting credits.
+
+### 🔮 5. What-If Scenario Simulator
+- Test hypothetical grades for pending or upcoming courses to calculate your projected final degree GPA and determine the minimum grade average needed to hit your target degree class.
+
+### 🖨️ 6. Publication-Ready PDF Export
+- Generate polished academic reports with one click. Dedicated `@media print` styling removes interactive buttons and adjusts layouts for standard A4 printing.
+
+---
+
+## 🏛️ OUSL Course Code Mapping Matrix
+
+| Subject Discipline | Modern Prefix (2019+) | Legacy Prefix (Pre-2019) | Handbooks & Syllabus Examples |
+| :--- | :---: | :---: | :--- |
+| **Computer Science** | `CSU` | — | `CSU5302`, `CSU5305`, `CSU5308`, `CSU5320` |
+| **Physics** | `PHU` | — | `PHU3300`, `PHU4303`, `PHU5302`, `PHU5312` |
+| **Chemistry** | `CYU` | `CMU` | `CYU3300`, `CYU4301`, `CYU5300`, `CMU1220` |
+| **Botany / Plant Sciences** | `BYU` | `BTU` | `BYU3500`, `BYU5305`, `BTU2104`, `BTU3111` |
+| **Zoology** | `ZYU` | `ZLU` | `ZYU5304`, `ZYU5306`, `ZYU5608`, `ZLU3180` |
+| **Applied Mathematics** | `ADU` | `AMU` | `ADU3300`, `ADU3302`, `AMU3181`, `AMU3182` |
+| **Pure Mathematics** | `PEU` | `PMU` | `PEU4300`, `PMU2191`, `PMU3292`, `PMU3295` |
+| **Continuing Education** | `CYE`, `LTE`, `LEE`, `CSE`, `FDE`, `ADE`, `FNE` | Excluded by default | `CYE3200`, `LEE3410`, `CSE3213`, `FDE3020` |
+
+---
+
+## 📐 Mathematical Framework
+
+### 1. General Degree (90 Credits)
+* Equal weighting across all completed courses:
+$$\text{General GPA} = \frac{\sum (\text{Credits} \times \text{GPV})}{\sum \text{Credits}}$$
+
+### 2. Honours / Special Degree (120 Credits)
+* Multi-level weighting using OUSL's effective credit factors:
+  * **Levels 3 & 4:** Weighted by $\times 2$
+  * **Levels 5 & 6:** Weighted by $\times 3$
+$$\text{Honours GPA} = \frac{\sum (\text{Effective Credits} \times \text{GPV})}{\sum \text{Effective Credits}}$$
+
+> [!TIP]
+> **Why is single-level GPA equal in both degrees?**  
+> Within any single level, the multiplier (e.g. $2$ at Level 3, or $3$ at Level 5) applies to both the numerator and the denominator, canceling out mathematically. The Honours weighting makes its impact when combining multiple levels together into the **Final Cumulative GPA**.
+
+---
+
+## 📁 Supported File Formats
+
+| Format | Source / Platform | Parser Implementation | Status |
+| :---: | :--- | :--- | :---: |
+| **`.xlsx`** | Microsoft Excel, Google Sheets, myOUSL export | Native zero-dependency ZIP XML parser | ✅ Full Support |
+| **`.xls`** | Legacy Excel exports | HTML / XML Workbook table extraction | ✅ Full Support |
+| **`.html` / `.htm`** | Direct portal web page save | DOMParser table structure recognizer | ✅ Full Support |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
+* **Node.js** (v18.0 or higher recommended)
+* **npm** or **pnpm** or **yarn**
 
-- **Node.js** v14+ and **npm** (or **yarn**)
+### Quick Setup
 
-### Installation
+```bash
+# 1. Clone the repository
+git clone https://github.com/Avishka-55/OUSL-GPA-Analyzer.git
+cd OUSL-GPA-Analyzer
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Avishka-55/OUSL-GPA-Analyzer.git
-   cd OUSL-GPA-Analyzer
-   ```
+# 2. Install dependencies
+npm install
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+# 3. Start development server with Hot Module Replacement
+npm run dev
+```
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-   The app will open at `http://localhost:5173` (Vite default).
+The application will launch locally at `http://localhost:5173`.
 
 ### Production Build
 
 ```bash
+# Build optimized production bundle
 npm run build
+
+# Preview production build locally
 npm run preview
 ```
 
-The optimized build outputs to the `dist/` folder.
+---
 
-## Usage
-
-### Step 1: Select Your Degree Type
-Choose between **General** (90 credits) or **Honours** (120 credits) at the top of the Setup card.
-
-### Step 2: Upload Your Results
-Drag and drop (or click to select) your grade sheet in any of these formats:
-- Excel file (`.xlsx` or `.xls`) exported from myOUSL
-- HTML file exported from the myOUSL portal
-- Browser-autofilled HTML from your transcript page
-
-### Step 3: Customize Exclusions
-By default, non-GPA courses are excluded. Edit the comma-separated list to customize which courses to skip.
-
-### Step 4: Analyze Results
-Click **Analyze My Results** to see:
-- **Cumulative GPA** and degree classification
-- **Course breakdown** — Included vs. excluded courses
-- **Credit progress** — Visual progress toward degree completion
-- **Level-wise GPA** — Performance by level (3, 4, 5, 6)
-- **Grade distribution** — How grades factor into your GPA
-
-### Step 5: Project Future Performance (Optional)
-Use the **What-If** section to simulate completing pending courses with different grades and see your projected GPA.
-
-### Step 6: Export
-Click **Export PDF** to save or print your full analysis report.
-
-## Project Structure
+## 📂 Project Architecture
 
 ```
 OUSL-GPA-Analyzer/
+├── public/                  # Static assets & SVG icons
 ├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── Dropzone.jsx     # File upload area
-│   │   ├── DegreeToggle.jsx  # Degree type selector
-│   │   ├── InfoPill.jsx      # Status notifications
-│   │   └── ...
+│   ├── assets/              # Logos and graphics
+│   ├── components/          # Reusable UI widgets
+│   │   ├── DegreeToggle.jsx # General vs. Honours switch
+│   │   ├── Dropzone.jsx     # Drag-and-drop file upload
+│   │   ├── InfoPill.jsx     # Status alert pill
+│   │   └── SectionHeader.jsx
 │   ├── hooks/
-│   │   └── useGpaAnalyzer.jsx # Main state management
+│   │   └── useGpaAnalyzer.jsx # Central state & course management engine
 │   ├── lib/
-│   │   └── gpa.jsx          # Core GPA calculation & parsing logic
-│   ├── pages/               # Page-level components
-│   │   ├── SetupCard.jsx    # Upload & configuration
-│   │   ├── ReportCard.jsx   # Analysis results display
-│   │   └── WhatIfCard.jsx   # Scenario simulator
-│   ├── report/              # Report sub-components
+│   │   └── gpa.jsx          # Core math formulas, criteria & parsers
+│   ├── pages/
+│   │   ├── SetupCard.jsx    # Step 1: Upload, options & notices
+│   │   ├── ReportCard.jsx   # Step 2: In-depth analytics dashboard
+│   │   └── WhatIfCard.jsx   # Step 3: Grade projection simulator
+│   ├── report/              # Dashboard sub-components
+│   │   ├── ClassificationPath.jsx
 │   │   ├── CourseTables.jsx
-│   │   ├── LevelGpaBars.jsx
+│   │   ├── CreditProgress.jsx
 │   │   ├── DegreeBadge.jsx
-│   │   └── ...
-│   ├── styles/              # Global styles
-│   ├── App.jsx              # Root component
-│   ├── main.jsx             # Entry point
-│   └── index.css
-├── public/                  # Static assets
-├── package.json
-├── vite.config.js
+│   │   ├── LevelGpaBars.jsx
+│   │   ├── RequirementsBreakdown.jsx
+│   │   ├── StatRow.jsx
+│   │   └── SubjectGpaCards.jsx # Modern subject metric card grid
+│   ├── styles/
+│   │   └── app.css          # Theme variables & responsive grid
+│   ├── App.jsx              # Main shell
+│   └── main.jsx             # React DOM root
 ├── eslint.config.js
-└── README.md
+├── package.json
+└── vite.config.js
 ```
-
-## Technologies Used
-
-- **React** (v19.2) — UI framework with hooks-based architecture
-- **Vite** (v8) — Lightning-fast build tool and dev server
-- **CSS3** — Custom styling with variables and flexbox layouts
-- **Vanilla JavaScript** — XLSX/ZIP parsing without external dependencies
-
-## Key Features in Detail
-
-### Excel File Parsing
-- Native XLSX reader that extracts ZIP-compressed workbook XML
-- Supports both uncompressed and deflate-compressed sheets
-- Parses shared strings, cell references, and data types
-
-### GPA Calculation
-- **General Degree** — Equal weighting across levels
-- **Honours Degree** — Double credit weighting for Level 5+ courses, triple for Level 6
-- Automatic credit extraction from course code (5th character)
-- Automatic level detection from course code (4th character)
-
-### Grade Point Values
-
-| Grade | Points |
-|-------|--------|
-| A+    | 4.0    |
-| A     | 4.0    |
-| A-    | 3.7    |
-| B+    | 3.3    |
-| B     | 3.0    |
-| B-    | 2.7    |
-| C+    | 2.3    |
-| C     | 2.0    |
-| C-    | 1.7    |
-| D+    | 1.3    |
-| D     | 1.0    |
-| E     | 0.0    |
-
-## Development
-
-### Available Scripts
-
-```bash
-npm run dev       # Start dev server with HMR
-npm run build     # Create optimized production build
-npm run lint      # Run ESLint checker
-npm run preview   # Preview production build locally
-```
-
-### Code Quality
-
-The project uses **ESLint** with React-specific rules. To check for issues:
-
-```bash
-npm run lint
-```
-
-## Browser Support
-
-- Chrome/Edge 90+
-- Firefox 88+
-- Safari 14+
-- Any browser with ES2020+ and Compression Stream support
-
-*Note: `.xlsx` decompression requires the native Compression Streams API. Modern browsers have this by default.*
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Known Limitations
-
-- Only reads the first non-empty sheet from Excel files
-- Course codes must follow OUSL format (e.g., `CSC3105` for Level 3, 1 credit)
-- HTML parsing expects standard myOUSL table format
-- Compressed `.xlsx` files require Compression Streams API support
-
-## Troubleshooting
-
-### "No courses found" error
-- Ensure your file contains a table with columns: Course Code, Course Name, Year, Status, Grade
-- Check that the first column is labeled "Course Code"
-
-### Grades not calculating
-- Verify all grades are valid (A+, A, A-, B+, B, B-, C+, C, C-, D+, D, E)
-- Ensure the Status column shows "Completed" or a grade is present
-- Check that course codes are properly formatted
-
-### PDF export doesn't work
-- Try a different browser (Chrome/Firefox recommended)
-- Ensure your browser isn't blocking popups
-
-## License
-
-This project is open source. Check the LICENSE file for details.
-
-## Support
-
-For issues, feature requests, or questions, please open an issue on GitHub.
 
 ---
 
-**Built with ❤️ for OUSL students**
+## 🛠️ Technology Stack
+
+* **Frontend:** [React 19](https://react.dev/)
+* **Build Tool:** [Vite 8](https://vitejs.dev/)
+* **Styling:** Vanilla CSS3 with Modern Variables & Grid Systems
+* **Excel Engine:** Custom client-side XML/ZIP decompression stream parser (zero heavy dependencies)
+* **Linter:** ESLint with strict React hooks rules
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and suggestions are welcome!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: Add AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B1A1A&height=120&section=footer" width="100%" alt="Footer Banner"/>
+</p>
+
+<p align="center">
+  <b>Built with ❤️ for students of The Open University of Sri Lanka</b>
+</p>
